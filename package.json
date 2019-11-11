@@ -11,5 +11,9 @@
     "url": "node-blog"
   },
   "author": "Francisco Fernández",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.10"
+  }
 }
