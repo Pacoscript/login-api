@@ -4,7 +4,8 @@
   "description": "login api based in Mongodb and nodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.7.10"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
   }
 }
