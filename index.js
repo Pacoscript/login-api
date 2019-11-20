@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 
 const createUserController = require ('./controllers/createUser')
 const storeUserController = require('./controllers/storeUser')
+const loginUserController = require('./controllers/loginUser')
 
 const app = new express()
 mongoose.connect(
@@ -34,6 +35,7 @@ const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 
 app.get('/auth/register', redirectIfAuthenticated, createUserController)
 app.post('/users/register',  storeUserController)
+app.post('/users/login', loginUserController )
 
 app.listen(process.env.PORT, () => {
   console.log(`App listening on port ${process.env.PORT}`)
