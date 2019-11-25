@@ -5,7 +5,6 @@ const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
 const bodyParser = require('body-parser')
 
-const createUserController = require ('./controllers/createUser')
 const storeUserController = require('./controllers/storeUser')
 const loginUserController = require('./controllers/loginUser')
 
@@ -31,9 +30,6 @@ app.use(
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
-
-app.get('/auth/register', redirectIfAuthenticated, createUserController)
 app.post('/users/register',  storeUserController)
 app.post('/users/login', loginUserController )
 

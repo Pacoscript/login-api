@@ -8,6 +8,7 @@ module.exports = (req, res) => {
             req.flash('data', req.body)
             return res.redirect('/auth/register')
         }
-        res.redirect('/')
+        res.status(201)
+        res.json({message: `${user.username} successfully registered`})
     })
 }
