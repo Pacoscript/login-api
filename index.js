@@ -1,40 +1,34 @@
 require('dotenv').config()
+
 const express = require('express')
 const mongoose = require('mongoose')
-const expressSession = require('express-session')
-const connectMongo = require('connect-mongo')
-const bodyParser = require('body-parser')
+const cors = require('./utils/cors')
+const router = require('./routes')
+const package = require('./package.json')
 
-const createUserController = require ('./controllers/createUser')
-const storeUserController = require('./controllers/storeUser')
+const {
+  env: { PORT, DB_URI },
+} = process
 
-const app = new express()
-mongoose.connect(
-  process.env.DB_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
-)
-
-const mongoStore = connectMongo(expressSession)
-
-app.use(
-  expressSession({
-    secret: process.env.EXPRESS_SESSION_KEY,
-    store: new mongoStore({
-      mongooseConnection: mongoose.connection
-    }),
-    resave: true,
-    saveUninitialized: true
+mongoose
+  .connect(DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
   })
-)
+  .then(() => {
+    console.log(`db server running at ${DB_URI}`)
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+    const app = express()
 
-const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
+    app.use(cors)
 
-app.get('/auth/register', redirectIfAuthenticated, createUserController)
-app.post('/users/register',  storeUserController)
+    app.use('/api', router)
 
-app.listen(process.env.PORT, () => {
-  console.log(`App listening on port ${process.env.PORT}`)
-})
+    app.listen(PORT, () => {
+      console.log(
+        `${package.name} ${package.version} up and running on port ${PORT}`
+      )
+    })
+  })
+  .catch(console.error)
