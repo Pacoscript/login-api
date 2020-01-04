@@ -7,40 +7,39 @@ const jwt = require('jsonwebtoken')
 
 const router = express.Router()
 
-const { env: { JWT_SECRET } } = process
+const {
+  env: { JWT_SECRET },
+} = process
 
 // REGISTER USER
 router.post('/users', jsonBodyParser, (req, res) => {
-    routeHandler(() => {
-        const { name, username, password } = req.body
-        return logic.registerUser(name, username, password)
-            .then(() => {
-                res.status(201)
-                res.json({
-                    message: `${username} successfully registered`
-                })
-            })
-    }, res)
+  routeHandler(() => {
+    const { name, username, password } = req.body
+    return logic.registerUser(name, username, password).then(() => {
+      res.status(201)
+      res.json({
+        message: `${username} successfully registered`,
+      })
+    })
+  }, res)
 })
 
 //AUTHENTICATE
 router.post('/auth', jsonBodyParser, (req, res) => {
-    routeHandler(() => {
-        const { username, password } = req.body
+  routeHandler(() => {
+    const { username, password } = req.body
 
-        return logic.authenticateUser(username, password)
-            .then(id => {
-                const token = jwt.sign({ sub: id }, JWT_SECRET)
+    return logic.authenticateUser(username, password).then(id => {
+      const token = jwt.sign({ sub: id }, JWT_SECRET)
 
-                res.json({
-                    data: {
-                        id,
-                        token
-                    }
-                })
-            })
-    }, res)
+      res.json({
+        data: {
+          id,
+          token,
+        },
+      })
+    })
+  }, res)
 })
-
 
 module.exports = router

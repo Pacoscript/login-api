@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "node-blog"
+    "url": "login-api"
   },
   "author": "Francisco Fernández",
   "license": "ISC",

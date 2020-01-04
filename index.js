@@ -7,7 +7,7 @@ const router = require('./routes')
 const package = require('./package.json')
 
 const {
-  env: { PORT, DB_URI }
+  env: { PORT, DB_URI },
 } = process
 
 mongoose
@@ -26,7 +26,9 @@ mongoose
     app.use('/api', router)
 
     app.listen(PORT, () => {
-      console.log(`${package.name} ${package.version} up and running on port ${PORT}`)
+      console.log(
+        `${package.name} ${package.version} up and running on port ${PORT}`
+      )
     })
   })
   .catch(console.error)
